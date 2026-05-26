@@ -33,6 +33,9 @@ class AliasManagerApp(Adw.Application):
         about_action.connect("activate", self._on_about)
         self.add_action(about_action)
 
+        self.set_accels_for_action("win.new-alias", ["<Control>n"])
+        self.set_accels_for_action("win.toggle-search", ["<Control>f"])
+
     def on_activate(self, app):
         icons_dir = os.path.normpath(
             os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'icons')

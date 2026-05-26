@@ -25,19 +25,26 @@ except ImportError:
 
 
 class AliasRow(Adw.ActionRow):
-    def __init__(self, alias: Alias):
+    def __init__(self, alias: Alias, selection_mode: bool = False, selected: bool = False, on_selection_changed=None):
         super().__init__()
         self.alias = alias
-        self._build(alias)
+        self._on_selection_changed = on_selection_changed
+        self._build(alias, selection_mode, selected)
 
-    def _build(self, alias: Alias):
+    def _build(self, alias: Alias, selection_mode: bool, selected: bool):
         self.set_title(alias.name)
         self.set_subtitle(html.escape(alias.command))
-
-        # Monospace tag on the command subtitle
         self.add_css_class("alias-row")
 
-        # Optional description badge
+        if selection_mode:
+            check = Gtk.CheckButton()
+            check.set_active(selected)
+            check.set_valign(Gtk.Align.CENTER)
+            check.connect("toggled", lambda c: self._on_selection_changed and self._on_selection_changed(alias.name, c.get_active()))
+            self.add_prefix(check)
+            self.set_activatable_widget(check)
+            return
+
         if alias.comment:
             badge = Gtk.Label(label=alias.comment)
             badge.set_css_classes(["caption", "dim-label"])
@@ -46,7 +53,6 @@ class AliasRow(Adw.ActionRow):
             badge.set_valign(Gtk.Align.CENTER)
             self.add_suffix(badge)
 
-        # Edit button
         edit_btn = Gtk.Button()
         edit_btn.set_icon_name("document-edit-symbolic")
         edit_btn.set_tooltip_text("Edit alias")
@@ -55,7 +61,6 @@ class AliasRow(Adw.ActionRow):
         edit_btn.connect("clicked", self._on_edit)
         self.add_suffix(edit_btn)
 
-        # Delete button
         delete_btn = Gtk.Button()
         delete_btn.set_icon_name("user-trash-symbolic")
         delete_btn.set_tooltip_text("Delete alias")
@@ -65,7 +70,6 @@ class AliasRow(Adw.ActionRow):
         delete_btn.connect("clicked", self._on_delete)
         self.add_suffix(delete_btn)
 
-        # Copy button
         copy_btn = Gtk.Button()
         copy_btn.set_icon_name("edit-copy-symbolic")
         copy_btn.set_tooltip_text("Copy to clipboard")
@@ -98,6 +102,8 @@ class AliasManagerWindow(Adw.ApplicationWindow):
         self._all_aliases: list[Alias] = []
         self._search_query = ""
         self._reload_timeout_id = None
+        self._selection_mode = False
+        self._selected: set[str] = set()
 
         self._build_ui()
         self._load()
@@ -115,30 +121,57 @@ class AliasManagerWindow(Adw.ApplicationWindow):
         # Header bar
         header = Adw.HeaderBar()
 
-        # Search button (toggleable)
+        # Normal mode buttons
         self.search_btn = Gtk.ToggleButton()
         self.search_btn.set_icon_name("system-search-symbolic")
-        self.search_btn.set_tooltip_text("Search aliases")
+        self.search_btn.set_tooltip_text("Search aliases (Ctrl+F)")
         self.search_btn.connect("toggled", self._on_search_toggled)
         header.pack_start(self.search_btn)
 
-        # Add button
-        add_btn = Gtk.Button()
-        add_btn.set_icon_name("list-add-symbolic")
-        add_btn.set_tooltip_text("Add new alias")
-        add_btn.add_css_class("suggested-action")
-        add_btn.connect("clicked", self._on_add_clicked)
-        header.pack_end(add_btn)
+        self.add_btn = Gtk.Button()
+        self.add_btn.set_icon_name("list-add-symbolic")
+        self.add_btn.set_tooltip_text("Add new alias (Ctrl+N)")
+        self.add_btn.add_css_class("suggested-action")
+        self.add_btn.connect("clicked", self._on_add_clicked)
+        header.pack_end(self.add_btn)
 
         menu = Gio.Menu()
         menu.append("Open ~/.bashrc", "app.open-bashrc")
         menu.append("About", "app.about")
-        menu_btn = Gtk.MenuButton()
-        menu_btn.set_icon_name("open-menu-symbolic")
-        menu_btn.set_menu_model(menu)
-        header.pack_end(menu_btn)
+        self.menu_btn = Gtk.MenuButton()
+        self.menu_btn.set_icon_name("open-menu-symbolic")
+        self.menu_btn.set_menu_model(menu)
+        header.pack_end(self.menu_btn)
+
+        self.select_btn = Gtk.Button()
+        self.select_btn.set_icon_name("object-select-symbolic")
+        self.select_btn.set_tooltip_text("Select aliases")
+        self.select_btn.connect("clicked", self._enter_selection_mode)
+        header.pack_end(self.select_btn)
+
+        # Selection mode buttons (hidden by default)
+        self.cancel_select_btn = Gtk.Button(label="Cancel")
+        self.cancel_select_btn.connect("clicked", self._exit_selection_mode)
+        self.cancel_select_btn.set_visible(False)
+        header.pack_start(self.cancel_select_btn)
+
+        self.delete_selected_btn = Gtk.Button(label="Delete")
+        self.delete_selected_btn.add_css_class("destructive-action")
+        self.delete_selected_btn.set_sensitive(False)
+        self.delete_selected_btn.set_visible(False)
+        self.delete_selected_btn.connect("clicked", self._on_delete_selected)
+        header.pack_end(self.delete_selected_btn)
 
         toolbar_view.add_top_bar(header)
+
+        # Window actions for keyboard shortcuts
+        new_action = Gio.SimpleAction.new("new-alias", None)
+        new_action.connect("activate", self._on_add_clicked)
+        self.add_action(new_action)
+
+        toggle_search_action = Gio.SimpleAction.new("toggle-search", None)
+        toggle_search_action.connect("activate", lambda *_: self.search_btn.set_active(not self.search_btn.get_active()))
+        self.add_action(toggle_search_action)
 
         # Search bar
         self.search_bar = Gtk.SearchBar()
@@ -216,6 +249,59 @@ class AliasManagerWindow(Adw.ApplicationWindow):
         self._load()
         return GLib.SOURCE_REMOVE
 
+    def _enter_selection_mode(self, *_):
+        self._selection_mode = True
+        self._selected.clear()
+        self._sync_header()
+        self._render()
+
+    def _exit_selection_mode(self, *_):
+        self._selection_mode = False
+        self._selected.clear()
+        self._sync_header()
+        self._render()
+
+    def _sync_header(self):
+        selecting = self._selection_mode
+        self.search_btn.set_visible(not selecting)
+        self.add_btn.set_visible(not selecting)
+        self.select_btn.set_visible(not selecting)
+        self.menu_btn.set_visible(not selecting)
+        self.cancel_select_btn.set_visible(selecting)
+        self.delete_selected_btn.set_visible(selecting)
+
+    def _on_selection_changed(self, alias_name: str, selected: bool):
+        if selected:
+            self._selected.add(alias_name)
+        else:
+            self._selected.discard(alias_name)
+        count = len(self._selected)
+        self.delete_selected_btn.set_sensitive(count > 0)
+        self.delete_selected_btn.set_label(f"Delete ({count})" if count > 0 else "Delete")
+
+    def _on_delete_selected(self, *_):
+        count = len(self._selected)
+        if not count:
+            return
+        dialog = Adw.AlertDialog()
+        dialog.set_heading(f"Delete {count} alias{'es' if count != 1 else ''}?")
+        dialog.set_body("This will remove the selected aliases from your ~/.bashrc.")
+        dialog.add_response("cancel", "Cancel")
+        dialog.add_response("delete", f"Delete {count}")
+        dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
+        dialog.set_default_response("cancel")
+        dialog.connect("response", self._on_bulk_delete_response)
+        dialog.present(self)
+
+    def _on_bulk_delete_response(self, dialog, response):
+        if response == "delete":
+            to_delete = [a for a in self._all_aliases if a.name in self._selected]
+            for alias in to_delete:
+                delete_alias(alias)
+            count = len(to_delete)
+            self._exit_selection_mode()
+            self.show_toast(f"Deleted {count} alias{'es' if count != 1 else ''}")
+
     def _load(self):
         self._all_aliases = load_aliases()
         self._render()
@@ -267,7 +353,12 @@ class AliasManagerWindow(Adw.ApplicationWindow):
         prefs_group = Adw.PreferencesGroup()
         prefs_group.set_title("Your Aliases" if not query else "")
         for alias in aliases:
-            prefs_group.add(AliasRow(alias))
+            prefs_group.add(AliasRow(
+                alias,
+                selection_mode=self._selection_mode,
+                selected=alias.name in self._selected,
+                on_selection_changed=self._on_selection_changed,
+            ))
         self.outer_box.append(prefs_group)
 
         # Footer note
