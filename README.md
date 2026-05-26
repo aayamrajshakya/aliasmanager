@@ -44,7 +44,7 @@ alias-manager
 - Reads all `alias name='command'` lines from `~/.bashrc` on launch
 - Watches `~/.bashrc` for changes and reloads automatically
 - Aliases added or edited by this app are tagged with `# [alias-manager]` for tracking
-- A timestamped `.bak` file is created before every write operation
+- A timestamped `.bak` file is stored in `~/.local/share/io.github.aayamrajshakya.aliasmanager/` before every write operation
 
 ## Notes
 
