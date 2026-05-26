@@ -29,8 +29,10 @@
             "buildsystem": "meson",
             "sources": [
                 {
-                    "type": "dir",
-                    "path": "."
+                    "type": "git",
+                    "url": "https://github.com/aayamrajshakya/gnome-alias-manager",
+                    "tag": "v1.0.0",
+                    "commit": "PLACEHOLDER_HASH"
                 }
             ],
             "config-opts": [
