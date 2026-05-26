@@ -6,7 +6,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Gtk, Adw, Pango
+from gi.repository import Gtk, Adw, Gio, Pango
 try:
     from .alias_store import (
         Alias, load_aliases, save_alias,
@@ -124,6 +124,14 @@ class AliasManagerWindow(Adw.ApplicationWindow):
         add_btn.add_css_class("suggested-action")
         add_btn.connect("clicked", self._on_add_clicked)
         header.pack_end(add_btn)
+
+        menu = Gio.Menu()
+        menu.append("Open ~/.bashrc", "app.open-bashrc")
+        menu.append("About", "app.about")
+        menu_btn = Gtk.MenuButton()
+        menu_btn.set_icon_name("open-menu-symbolic")
+        menu_btn.set_menu_model(menu)
+        header.pack_end(menu_btn)
 
         toolbar_view.add_top_bar(header)
 
