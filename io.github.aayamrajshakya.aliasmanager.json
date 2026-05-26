@@ -5,6 +5,7 @@
     "//!": "!!!!!!Also update the GNOME version in ./.github/workflows/flatpak.yml",
     "sdk": "org.gnome.Sdk",
     "command": "alias-manager",
+    "//": "Justification for --filesystem=home: This app reads, writes, and monitors ~/.bashrc. It also creates timestamped backup files (e.g. ~/.bashrc.20260526_120000.bak) in the home directory before every write.",
     "finish-args": [
         "--share=ipc",
         "--socket=fallback-x11",
@@ -30,9 +31,9 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/aayamrajshakya/gnome-alias-manager",
+                    "url": "https://github.com/aayamrajshakya/aliasmanager",
                     "tag": "v1.0.0",
-                    "commit": "PLACEHOLDER_HASH"
+                    "commit": "ff1546252fab4de62fe46040390629f14666fba2"
                 }
             ],
             "config-opts": [

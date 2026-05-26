@@ -27,20 +27,21 @@
   <screenshots>
     <screenshot type="default">
       <caption>Main window showing the alias list</caption>
-      <image>https://raw.githubusercontent.com/aayamrajshakya/gnome-alias-manager/main/data/screenshots/main.png</image>
+      <image>https://raw.githubusercontent.com/aayamrajshakya/aliasmanager/main/data/screenshots/main.png</image>
     </screenshot>
     <screenshot>
       <caption>Add or edit an alias with the dialog</caption>
-      <image>https://raw.githubusercontent.com/aayamrajshakya/gnome-alias-manager/main/data/screenshots/dialog.png</image>
+      <image>https://raw.githubusercontent.com/aayamrajshakya/aliasmanager/main/data/screenshots/dialog.png</image>
     </screenshot>
     <screenshot>
       <caption>Search and filter aliases in real time</caption>
-      <image>https://raw.githubusercontent.com/aayamrajshakya/gnome-alias-manager/main/data/screenshots/search.png</image>
+      <image>https://raw.githubusercontent.com/aayamrajshakya/aliasmanager/main/data/screenshots/search.png</image>
     </screenshot>
   </screenshots>
 
-  <url type="homepage">https://github.com/aayamrajshakya/gnome-alias-manager</url>
-  <url type="bugtracker">https://github.com/aayamrajshakya/gnome-alias-manager/issues</url>
+  <url type="homepage">https://github.com/aayamrajshakya/aliasmanager</url>
+  <url type="vcs-browser">https://github.com/aayamrajshakya/aliasmanager</url>
+  <url type="bugtracker">https://github.com/aayamrajshakya/aliasmanager/issues</url>
 
   <developer id="io.github.aayamrajshakya">
     <name>Aayam Raj Shakya</name>

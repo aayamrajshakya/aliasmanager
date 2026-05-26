@@ -59,7 +59,7 @@ alias-manager
 
   <br>
 
-  <img src="data/screenshots/dialog.png" alt="Add or edit alias dialog" width="400">
+  <img src="data/screenshots/dialog.png" alt="Add or edit alias dialog" width="600">
   <p><em>Add or edit aliases with live preview and duplicate detection</em></p>
 
   <br>
