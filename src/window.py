@@ -14,12 +14,14 @@ try:
         delete_alias, update_alias, BASHRC_PATH
     )
     from .alias_dialog import AliasDialog
+    from .history import get_suggestions
 except ImportError:
     from alias_store import (
         Alias, load_aliases, save_alias,
         delete_alias, update_alias, BASHRC_PATH
     )
     from alias_dialog import AliasDialog
+    from history import get_suggestions
 
 
 class AliasRow(Adw.ActionRow):
@@ -242,7 +244,28 @@ class AliasManagerWindow(Adw.ApplicationWindow):
             self.outer_box.append(self.no_results_page)
             return
 
+        if not query:
+            suggestions = get_suggestions(self._all_aliases)
+            if suggestions:
+                suggestions_group = Adw.PreferencesGroup()
+                suggestions_group.set_title("Suggested Aliases")
+                suggestions_group.set_description("Commands you run often — click + to create an alias")
+                for cmd, count in suggestions:
+                    row = Adw.ActionRow()
+                    row.set_title(html.escape(cmd))
+                    row.set_subtitle(f"Used {count} times")
+                    add_btn = Gtk.Button()
+                    add_btn.set_icon_name("list-add-symbolic")
+                    add_btn.set_tooltip_text("Create alias")
+                    add_btn.set_valign(Gtk.Align.CENTER)
+                    add_btn.add_css_class("flat")
+                    add_btn.connect("clicked", self._on_suggest_clicked, cmd)
+                    row.add_suffix(add_btn)
+                    suggestions_group.add(row)
+                self.outer_box.append(suggestions_group)
+
         prefs_group = Adw.PreferencesGroup()
+        prefs_group.set_title("Your Aliases" if not query else "")
         for alias in aliases:
             prefs_group.add(AliasRow(alias))
         self.outer_box.append(prefs_group)
@@ -267,6 +290,12 @@ class AliasManagerWindow(Adw.ApplicationWindow):
     def _on_search_changed(self, entry):
         self._search_query = entry.get_text()
         self._render()
+
+    def _on_suggest_clicked(self, btn, cmd: str):
+        prefilled = Alias(name="", command=cmd)
+        dialog = AliasDialog(self, prefill=prefilled)
+        dialog.connect("closed", self._on_add_dialog_closed)
+        dialog.present(self)
 
     def _on_add_clicked(self, *_):
         dialog = AliasDialog(self)

@@ -16,7 +16,7 @@ except ImportError:
 class AliasDialog(Adw.Dialog):
     """Dialog for adding or editing an alias."""
 
-    def __init__(self, parent, alias: Alias = None):
+    def __init__(self, parent, alias: Alias = None, prefill: Alias = None):
         super().__init__()
         self.parent_window = parent
         self.editing = alias
@@ -54,6 +54,8 @@ class AliasDialog(Adw.Dialog):
         # Preferences group
         prefs_group = Adw.PreferencesGroup()
 
+        source = alias or prefill
+
         # Name row
         self.name_row = Adw.EntryRow(title="Alias Name")
         self.name_row.set_text(alias.name if alias else "")
@@ -62,7 +64,7 @@ class AliasDialog(Adw.Dialog):
 
         # Command row
         self.command_row = Adw.EntryRow(title="Command")
-        self.command_row.set_text(alias.command if alias else "")
+        self.command_row.set_text(source.command if source else "")
         self.command_row.connect("changed", self._validate)
         prefs_group.add(self.command_row)
 

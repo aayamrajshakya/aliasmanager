@@ -16,6 +16,7 @@ python.install_sources(
   'src/window.py',
   'src/alias_store.py',
   'src/alias_dialog.py',
+  'src/history.py',
   subdir: 'alias_manager',
 )
 
