@@ -1,7 +1,11 @@
-# Alias Manager
+<div align="center">
+  <img src="data/icons/hicolor/scalable/apps/io.github.aayamrajshakya.aliasmanager.svg" width="128" height="128" alt="Alias Manager icon">
 
-A native GNOME app to manage your `~/.bashrc` aliases visually.
-Built with GTK4 + libadwaita + Python.
+  # Alias Manager
+
+  A native GNOME app to manage your `~/.bashrc` aliases visually.
+  Built with GTK4 + libadwaita + Python.
+</div>
 
 ## Features
 
@@ -46,6 +50,23 @@ alias-manager
 
 - After adding or editing aliases, run `source ~/.bashrc` in your terminal for changes to take effect in existing sessions
 - New terminal windows will pick up changes automatically
+
+## Screenshots
+
+<div align="center">
+  <img src="data/screenshots/main.png" alt="Main window showing the alias list" width="600">
+  <p><em>All your aliases in one place, in the order they appear in <code>~/.bashrc</code></em></p>
+
+  <br>
+
+  <img src="data/screenshots/dialog.png" alt="Add or edit alias dialog" width="400">
+  <p><em>Add or edit aliases with live preview and duplicate detection</em></p>
+
+  <br>
+
+  <img src="data/screenshots/search.png" alt="Search filtering aliases in real time" width="600">
+  <p><em>Search across names, commands, and descriptions instantly</em></p>
+</div>
 
 ## Contributing
 
