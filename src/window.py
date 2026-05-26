@@ -239,6 +239,11 @@ class AliasManagerWindow(Adw.ApplicationWindow):
         self._monitor = bashrc.monitor_file(Gio.FileMonitorFlags.WATCH_MOVES, None)
         self._monitor.connect("changed", self._on_bashrc_changed)
 
+        history_path = os.path.expanduser("~/.bash_history")
+        history_file = Gio.File.new_for_path(history_path)
+        self._history_monitor = history_file.monitor_file(Gio.FileMonitorFlags.WATCH_MOVES, None)
+        self._history_monitor.connect("changed", self._on_bashrc_changed)
+
     def _on_bashrc_changed(self, monitor, file, other_file, event_type):
         if self._reload_timeout_id:
             GLib.source_remove(self._reload_timeout_id)

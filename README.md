@@ -11,8 +11,11 @@
 
 - Live sync with `~/.bashrc` — the alias list updates instantly when the file changes
 - Full CRUD — add, edit, and delete aliases with a clean dialog
+- Bulk delete — select multiple aliases and remove them at once
+- Alias suggestions based on your shell history — frequently used commands are surfaced automatically
 - Non-destructive — a timestamped backup of `~/.bashrc` is created before every write
-- Search across alias names, commands, and descriptions in real time
+- Search across alias names, commands, and descriptions in real time (`Ctrl+F`)
+- Keyboard shortcuts — `Ctrl+N` to add, `Ctrl+F` to search
 - Preserves your `~/.bashrc` order and works with manually written aliases too
 - Native GNOME look and feel with libadwaita and dark mode support
 
@@ -55,7 +58,7 @@ alias-manager
 
 <div align="center">
   <img src="data/screenshots/main.png" alt="Main window showing the alias list" width="600">
-  <p><em>All your aliases in one place, in the order they appear in <code>~/.bashrc</code></em></p>
+  <p><em>All your aliases in one place, with smart suggestions from your shell history</em></p>
 
   <br>
 
@@ -64,8 +67,6 @@ alias-manager
 
   <br>
 
-  <img src="data/screenshots/search.png" alt="Search filtering aliases in real time" width="600">
-  <p><em>Search across names, commands, and descriptions instantly</em></p>
 </div>
 
 ## Contributing

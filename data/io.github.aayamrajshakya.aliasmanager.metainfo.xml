@@ -26,16 +26,12 @@
 
   <screenshots>
     <screenshot type="default">
-      <caption>Main window showing the alias list</caption>
+      <caption>Main window with alias list and smart suggestions from shell history</caption>
       <image>https://raw.githubusercontent.com/aayamrajshakya/aliasmanager/main/data/screenshots/main.png</image>
     </screenshot>
     <screenshot>
       <caption>Add or edit an alias with the dialog</caption>
       <image>https://raw.githubusercontent.com/aayamrajshakya/aliasmanager/main/data/screenshots/dialog.png</image>
-    </screenshot>
-    <screenshot>
-      <caption>Search and filter aliases in real time</caption>
-      <image>https://raw.githubusercontent.com/aayamrajshakya/aliasmanager/main/data/screenshots/search.png</image>
     </screenshot>
   </screenshots>
 
