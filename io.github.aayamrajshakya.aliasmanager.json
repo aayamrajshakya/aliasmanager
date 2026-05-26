@@ -5,12 +5,11 @@
     "//!": "!!!!!!Also update the GNOME version in ./.github/workflows/flatpak.yml",
     "sdk": "org.gnome.Sdk",
     "command": "alias-manager",
-    "//": "Justification for --filesystem=home: This app reads, writes, and monitors ~/.bashrc. It also creates timestamped backup files (e.g. ~/.bashrc.20260526_120000.bak) in the home directory before every write.",
     "finish-args": [
         "--share=ipc",
         "--socket=fallback-x11",
         "--socket=wayland",
-        "--filesystem=home"
+        "--filesystem=~/.bashrc"
     ],
     "cleanup": [
         "/include",

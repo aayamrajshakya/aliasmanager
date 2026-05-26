@@ -200,13 +200,11 @@ class AliasManagerWindow(Adw.ApplicationWindow):
         )
 
     def _watch_bashrc(self):
-        home_dir = Gio.File.new_for_path(os.path.expanduser("~"))
-        self._monitor = home_dir.monitor_directory(Gio.FileMonitorFlags.NONE, None)
+        bashrc = Gio.File.new_for_path(BASHRC_PATH)
+        self._monitor = bashrc.monitor_file(Gio.FileMonitorFlags.WATCH_MOVES, None)
         self._monitor.connect("changed", self._on_bashrc_changed)
 
     def _on_bashrc_changed(self, monitor, file, other_file, event_type):
-        if file.get_basename() != ".bashrc":
-            return
         if self._reload_timeout_id:
             GLib.source_remove(self._reload_timeout_id)
         self._reload_timeout_id = GLib.timeout_add(300, self._reload_debounced)

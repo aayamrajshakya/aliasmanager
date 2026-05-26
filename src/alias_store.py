@@ -10,6 +10,7 @@ from typing import Optional
 
 
 BASHRC_PATH = os.path.expanduser("~/.bashrc")
+BACKUP_DIR = os.path.join(os.environ.get("XDG_DATA_HOME", os.path.expanduser("~/.local/share")), "io.github.aayamrajshakya.aliasmanager")
 MARKER = "# [alias-manager]"
 
 
@@ -39,8 +40,9 @@ class Alias:
 
 
 def backup_bashrc():
+    os.makedirs(BACKUP_DIR, exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup = f"{BASHRC_PATH}.{ts}.bak"
+    backup = os.path.join(BACKUP_DIR, f".bashrc.{ts}.bak")
     if os.path.exists(BASHRC_PATH):
         shutil.copy2(BASHRC_PATH, backup)
     return backup
