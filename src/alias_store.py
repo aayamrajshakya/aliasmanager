@@ -29,8 +29,10 @@ class Alias:
         """Parse a bashrc alias line into an Alias object."""
         # Strip marker
         clean = line.replace(MARKER, "").strip()
-        # Match: alias name='command'  # optional comment
-        m = re.match(r"^alias\s+(\w+)=['\"](.+?)['\"](?:\s*#\s*(.*))?$", clean)
+        m = (
+            re.match(r"^alias\s+(\w+)='([^']*)'(?:\s*#\s*(.*))?$", clean) or
+            re.match(r'^alias\s+(\w+)="([^"]*)"(?:\s*#\s*(.*))?$', clean)
+        )
         if m:
             return Alias(name=m.group(1), command=m.group(2), comment=(m.group(3) or "").strip())
         return None

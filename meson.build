@@ -4,8 +4,7 @@ project('alias-manager',
 )
 
 python = import('python').find_installation('python3')
-gnome   = import('gnome')
-i18n    = import('i18n')
+gnome  = import('gnome')
 
 # App metadata
 app_id = 'io.github.aayamrajshakya.aliasmanager'
@@ -24,6 +23,12 @@ python.install_sources(
 install_data(
   'data/io.github.aayamrajshakya.aliasmanager.desktop',
   install_dir: get_option('datadir') / 'applications',
+)
+
+# Install metainfo
+install_data(
+  'data/io.github.aayamrajshakya.aliasmanager.metainfo.xml',
+  install_dir: get_option('datadir') / 'metainfo',
 )
 
 # Install app icon
@@ -45,4 +50,9 @@ configure_file(
   install: true,
   install_dir: get_option('bindir'),
   install_mode: 'rwxr-xr-x',
+)
+
+gnome.post_install(
+    gtk_update_icon_cache: true,
+  update_desktop_database: true,
 )

@@ -34,13 +34,14 @@ class AliasManagerApp(Adw.Application):
         self.add_action(about_action)
 
     def on_activate(self, app):
-        from gi.repository import Gdk
-        display = Gdk.Display.get_default()
-        if display:
-            icons_dir = os.path.normpath(
-                os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'icons')
-            )
-            Gtk.IconTheme.get_for_display(display).add_search_path(icons_dir)
+        icons_dir = os.path.normpath(
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'icons')
+        )
+        if os.path.exists(icons_dir):
+            from gi.repository import Gdk
+            display = Gdk.Display.get_default()
+            if display:
+                Gtk.IconTheme.get_for_display(display).add_search_path(icons_dir)
         win = AliasManagerWindow(application=app)
         win.present()
 

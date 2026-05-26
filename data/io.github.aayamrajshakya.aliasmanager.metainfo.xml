@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.aayamrajshakya.aliasmanager</id>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Alias Manager</name>
+  <summary>Manage your bash aliases visually</summary>
+
+  <description>
+    <p>
+      A native GNOME app to manage your ~/.bashrc aliases visually.
+      Add, edit, delete, and search aliases without touching the terminal.
+    </p>
+    <ul>
+      <li>Live sync with ~/.bashrc — the alias list updates instantly when the file changes</li>
+      <li>Add, edit, and delete aliases with a clean dialog</li>
+      <li>Timestamped backup of ~/.bashrc created before every write</li>
+      <li>Search across alias names, commands, and descriptions in real time</li>
+      <li>Preserves your ~/.bashrc order and works with manually written aliases too</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">io.github.aayamrajshakya.aliasmanager.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window showing the alias list</caption>
+      <!-- Add image URL before submitting to Flathub -->
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/aayamrajshakya/gnome-alias-manager</url>
+  <url type="bugtracker">https://github.com/aayamrajshakya/gnome-alias-manager/issues</url>
+
+  <developer id="io.github.aayamrajshakya">
+    <name>Aayam Raj Shakya</name>
+  </developer>
+
+  <releases>
+    <release version="1.0.0" date="2026-05-26">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1"/>
+</component>
