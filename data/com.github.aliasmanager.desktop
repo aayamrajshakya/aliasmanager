@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Alias Manager
+Comment=Manage your bash aliases visually
+Exec=alias-manager
+Icon=com.github.aliasmanager
+Terminal=false
+Type=Application
+Categories=Utility;System;
+Keywords=alias;bash;terminal;shell;
+StartupWMClass=alias-manager

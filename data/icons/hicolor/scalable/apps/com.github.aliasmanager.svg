@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Background rounded rect -->
+  <rect width="128" height="128" rx="28" fill="#1e1e2e"/>
+  <!-- Terminal prompt > -->
+  <text x="16" y="72" font-family="monospace" font-size="48" font-weight="bold" fill="#cba6f7">$</text>
+  <!-- Underscore cursor -->
+  <rect x="52" y="76" width="28" height="5" rx="2" fill="#89dceb"/>
+  <!-- Small alias lines -->
+  <rect x="16" y="90" width="60" height="4" rx="2" fill="#45475a"/>
+  <rect x="16" y="100" width="44" height="4" rx="2" fill="#45475a"/>
+</svg>

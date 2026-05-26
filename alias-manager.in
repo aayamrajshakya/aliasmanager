@@ -1,0 +1,11 @@
+#!/usr/bin/env @PYTHON@
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+import sys
+import os
+
+sys.path.insert(1, '@pkgdatadir@')
+
+from alias_manager.main import main
+
+sys.exit(main())
