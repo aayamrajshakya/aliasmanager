@@ -2,7 +2,7 @@
 Name=Alias Manager
 Comment=Manage your bash aliases visually
 Exec=alias-manager
-Icon=com.github.aliasmanager
+Icon=io.github.aayamrajshakya.aliasmanager
 Terminal=false
 Type=Application
 Categories=Utility;System;

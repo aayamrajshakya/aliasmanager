@@ -20,7 +20,7 @@ except ImportError:
 class AliasManagerApp(Adw.Application):
     def __init__(self):
         super().__init__(
-            application_id="com.github.aliasmanager",
+            application_id="io.github.aayamrajshakya.aliasmanager",
             flags=Gio.ApplicationFlags.FLAGS_NONE,
         )
         self.connect("activate", self.on_activate)
@@ -51,7 +51,7 @@ class AliasManagerApp(Adw.Application):
         window = Adw.AboutWindow(
             transient_for=self.props.active_window,
             application_name="Alias Manager",
-            application_icon="com.github.aliasmanager",
+            application_icon="io.github.aayamrajshakya.aliasmanager",
             version="1.0.0",
             comments="Manage your bash aliases visually",
             copyright="© 2026 Aayam Raj Shakya",

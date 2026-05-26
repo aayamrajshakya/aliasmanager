@@ -8,7 +8,7 @@ gnome   = import('gnome')
 i18n    = import('i18n')
 
 # App metadata
-app_id = 'com.github.aliasmanager'
+app_id = 'io.github.aayamrajshakya.aliasmanager'
 
 # Install Python sources
 python.install_sources(
@@ -22,13 +22,13 @@ python.install_sources(
 
 # Install .desktop file
 install_data(
-  'data/com.github.aliasmanager.desktop',
+  'data/io.github.aayamrajshakya.aliasmanager.desktop',
   install_dir: get_option('datadir') / 'applications',
 )
 
 # Install app icon
 install_data(
-  'data/icons/hicolor/scalable/apps/com.github.aliasmanager.svg',
+  'data/icons/hicolor/scalable/apps/io.github.aayamrajshakya.aliasmanager.svg',
   install_dir: get_option('datadir') / 'icons/hicolor/scalable/apps',
 )
 
