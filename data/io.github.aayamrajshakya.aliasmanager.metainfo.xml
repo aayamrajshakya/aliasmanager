@@ -48,6 +48,11 @@
   </developer>
 
   <releases>
+    <release version="1.0.1" date="2026-05-26">
+      <description>
+        <p>Narrow Flatpak filesystem permission to ~/.bashrc and move backups to XDG data directory.</p>
+      </description>
+    </release>
     <release version="1.0.0" date="2026-05-26">
       <description>
         <p>Initial release.</p>

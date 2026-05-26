@@ -35,9 +35,6 @@
                     "commit": "ff1546252fab4de62fe46040390629f14666fba2"
                 }
             ],
-            "config-opts": [
-                "--libdir=lib"
-            ]
         }
     ]
 }
