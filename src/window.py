@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import html
+import os
 import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Gtk, Adw, Gio, Pango
+from gi.repository import Gtk, Adw, Gio, GLib, Pango
 try:
     from .alias_store import (
         Alias, load_aliases, save_alias,
@@ -94,9 +95,11 @@ class AliasManagerWindow(Adw.ApplicationWindow):
 
         self._all_aliases: list[Alias] = []
         self._search_query = ""
+        self._reload_timeout_id = None
 
         self._build_ui()
         self._load()
+        self._watch_bashrc()
 
     def _build_ui(self):
         # Toast overlay wraps everything
@@ -196,6 +199,23 @@ class AliasManagerWindow(Adw.ApplicationWindow):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
+    def _watch_bashrc(self):
+        home_dir = Gio.File.new_for_path(os.path.expanduser("~"))
+        self._monitor = home_dir.monitor_directory(Gio.FileMonitorFlags.NONE, None)
+        self._monitor.connect("changed", self._on_bashrc_changed)
+
+    def _on_bashrc_changed(self, monitor, file, other_file, event_type):
+        if file.get_basename() != ".bashrc":
+            return
+        if self._reload_timeout_id:
+            GLib.source_remove(self._reload_timeout_id)
+        self._reload_timeout_id = GLib.timeout_add(300, self._reload_debounced)
+
+    def _reload_debounced(self):
+        self._reload_timeout_id = None
+        self._load()
+        return GLib.SOURCE_REMOVE
+
     def _load(self):
         self._all_aliases = load_aliases()
         self._render()
@@ -224,19 +244,10 @@ class AliasManagerWindow(Adw.ApplicationWindow):
             self.outer_box.append(self.no_results_page)
             return
 
-        # Group by first letter
-        groups: dict[str, list[Alias]] = {}
-        for alias in sorted(aliases, key=lambda a: a.name.lower()):
-            key = alias.name[0].upper()
-            groups.setdefault(key, []).append(alias)
-
-        for letter, group_aliases in sorted(groups.items()):
-            prefs_group = Adw.PreferencesGroup()
-            prefs_group.set_title(letter)
-            for alias in group_aliases:
-                row = AliasRow(alias)
-                prefs_group.add(row)
-            self.outer_box.append(prefs_group)
+        prefs_group = Adw.PreferencesGroup()
+        for alias in aliases:
+            prefs_group.add(AliasRow(alias))
+        self.outer_box.append(prefs_group)
 
         # Footer note
         count = len(aliases)

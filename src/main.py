@@ -54,7 +54,7 @@ class AliasManagerApp(Adw.Application):
             application_icon="com.github.aliasmanager",
             version="1.0.0",
             comments="Manage your bash aliases visually",
-            copyright="© 2025 Aayam Raj Shakya",
+            copyright="© 2026 Aayam Raj Shakya",
             license_type=Gtk.License.GPL_3_0,
             developers=["Aayam Raj Shakya (aayamrajshakya) https://github.com/aayamrajshakya"],
         )
