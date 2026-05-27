@@ -6,10 +6,6 @@ project('alias-manager',
 python = import('python').find_installation('python3')
 gnome  = import('gnome')
 
-# App metadata
-app_id = 'io.github.aayamrajshakya.aliasmanager'
-
-# Install Python sources
 python.install_sources(
   'src/__init__.py',
   'src/main.py',
@@ -20,25 +16,21 @@ python.install_sources(
   subdir: 'alias_manager',
 )
 
-# Install .desktop file
 install_data(
   'data/io.github.aayamrajshakya.aliasmanager.desktop',
   install_dir: get_option('datadir') / 'applications',
 )
 
-# Install metainfo
 install_data(
   'data/io.github.aayamrajshakya.aliasmanager.metainfo.xml',
   install_dir: get_option('datadir') / 'metainfo',
 )
 
-# Install app icon
 install_data(
   'data/icons/hicolor/scalable/apps/io.github.aayamrajshakya.aliasmanager.svg',
   install_dir: get_option('datadir') / 'icons/hicolor/scalable/apps',
 )
 
-# Install and configure the launcher script
 conf = configuration_data()
 conf.set('PYTHON', python.full_path())
 conf.set('pkgdatadir', get_option('prefix') / get_option('datadir') / 'alias_manager')

@@ -10,36 +10,30 @@
 ## Features
 
 - Live sync with `~/.bashrc` — the alias list updates instantly when the file changes
-- Full CRUD — add, edit, and delete aliases with a clean dialog
+- Add, edit, and delete aliases with a clean dialog
 - Bulk delete — select multiple aliases and remove them at once
 - Alias suggestions based on your shell history — frequently used commands are surfaced automatically
 - Non-destructive — a timestamped backup of `~/.bashrc` is created before every write
-- Search across alias names, commands, and descriptions in real time (`Ctrl+F`)
+- Search across alias names, commands, and descriptions in real time
 - Keyboard shortcuts — `Ctrl+N` to add, `Ctrl+F` to search
 - Preserves your `~/.bashrc` order and works with manually written aliases too
 - Native GNOME look and feel with libadwaita and dark mode support
 
-## Requirements
-
-```bash
-# Fedora
-sudo dnf install python3-gobject
-
-# Ubuntu/Debian
-sudo apt install python3-gi python3-gi-cairo
-```
-
 ## Install
 
+Install from Flathub, or build manually:
+
 ```bash
+git clone https://github.com/aayamrajshakya/aliasmanager
+cd aliasmanager
 meson setup builddir --prefix=$HOME/.local
 cd builddir
 meson install
 ```
 
-Then launch with:
+Then launch via your application menu, or:
 ```bash
-alias-manager
+flatpak run io.github.aayamrajshakya.aliasmanager
 ```
 
 ## How it works
@@ -49,10 +43,8 @@ alias-manager
 - Aliases added or edited by this app are tagged with `# [alias-manager]` for tracking
 - A timestamped `.bak` file is stored in `~/.local/share/io.github.aayamrajshakya.aliasmanager/` before every write operation
 
-## Notes
-
-- After adding or editing aliases, run `source ~/.bashrc` in your terminal for changes to take effect in existing sessions
-- New terminal windows will pick up changes automatically
+> [!TIP]
+> New terminal windows pick up alias changes automatically. To apply them in an already open terminal, run `source ~/.bashrc`.
 
 ## Screenshots
 

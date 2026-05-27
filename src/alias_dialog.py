@@ -18,7 +18,6 @@ class AliasDialog(Adw.Dialog):
 
     def __init__(self, parent, alias: Alias = None, prefill: Alias = None):
         super().__init__()
-        self.parent_window = parent
         self.editing = alias
         self.result: Alias | None = None
 

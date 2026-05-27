@@ -2,14 +2,14 @@
     "app-id": "io.github.aayamrajshakya.aliasmanager",
     "runtime": "org.gnome.Platform",
     "runtime-version": "50",
-    "//!": "!!!!!!Also update the GNOME version in ./.github/workflows/flatpak.yml",
     "sdk": "org.gnome.Sdk",
     "command": "alias-manager",
     "finish-args": [
         "--share=ipc",
         "--socket=fallback-x11",
         "--socket=wayland",
-        "--filesystem=~/.bashrc"
+        "--filesystem=~/.bashrc",
+        "--filesystem=~/.bash_history:ro"
     ],
     "modules": [
         {
