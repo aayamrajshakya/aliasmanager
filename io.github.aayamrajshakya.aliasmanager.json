@@ -20,8 +20,8 @@
                 {
                     "type": "git",
                     "url": "https://github.com/aayamrajshakya/aliasmanager",
-                    "tag": "v1.0.1",
-                    "commit": "ab9b17f107cee9d781c0ef44ca49a9448245577a"
+                    "tag": "v1.0.2",
+                    "commit": "75895788c36a3be6020269dacb6249711d81c998"
                 }
             ]
         }
