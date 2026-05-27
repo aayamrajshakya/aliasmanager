@@ -44,6 +44,11 @@
   </developer>
 
   <releases>
+    <release version="1.0.2" date="2026-05-26">
+      <description>
+        <p>Add alias suggestions based on shell history, bulk delete, and keyboard shortcuts.</p>
+      </description>
+    </release>
     <release version="1.0.1" date="2026-05-26">
       <description>
         <p>Narrow Flatpak filesystem permission to ~/.bashrc and move backups to XDG data directory.</p>

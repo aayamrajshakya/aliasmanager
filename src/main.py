@@ -56,7 +56,7 @@ class AliasManagerApp(Adw.Application):
             transient_for=self.props.active_window,
             application_name="Alias Manager",
             application_icon="io.github.aayamrajshakya.aliasmanager",
-            version="1.0.1",
+            version="1.0.2",
             comments="Manage your bash aliases visually",
             copyright="© 2026 Aayam Raj Shakya",
             license_type=Gtk.License.GPL_3_0,

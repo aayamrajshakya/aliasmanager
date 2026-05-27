@@ -1,5 +1,5 @@
 project('alias-manager',
-  version: '1.0.0',
+  version: '1.0.2',
   meson_version: '>= 0.62.0',
 )
 
@@ -42,7 +42,6 @@ install_data(
 conf = configuration_data()
 conf.set('PYTHON', python.full_path())
 conf.set('pkgdatadir', get_option('prefix') / get_option('datadir') / 'alias_manager')
-conf.set('localedir', get_option('prefix') / get_option('localedir'))
 
 configure_file(
   input: 'alias-manager.in',
@@ -54,6 +53,6 @@ configure_file(
 )
 
 gnome.post_install(
-    gtk_update_icon_cache: true,
+  gtk_update_icon_cache: true,
   update_desktop_database: true,
 )

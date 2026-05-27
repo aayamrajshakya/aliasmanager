@@ -54,8 +54,6 @@ class AliasDialog(Adw.Dialog):
         # Preferences group
         prefs_group = Adw.PreferencesGroup()
 
-        source = alias or prefill
-
         # Name row
         self.name_row = Adw.EntryRow(title="Alias Name")
         self.name_row.set_text(alias.name if alias else "")
@@ -64,7 +62,7 @@ class AliasDialog(Adw.Dialog):
 
         # Command row
         self.command_row = Adw.EntryRow(title="Command")
-        self.command_row.set_text(source.command if source else "")
+        self.command_row.set_text((alias or prefill).command if (alias or prefill) else "")
         self.command_row.connect("changed", self._validate)
         prefs_group.add(self.command_row)
 
